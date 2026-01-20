@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from datetime import datetime, UTC
 
 app = FastAPI()
 
@@ -18,7 +19,7 @@ async def hello(name: str = "World"):
     """Simple hello endpoint"""
     return JSONResponse({
         "message": f"Hello, {name}!",
-        "timestamp": __import__("datetime").datetime.utcnow().isoformat()
+        "timestamp": datetime.now(UTC).isoformat()
     })
 
 
@@ -47,8 +48,7 @@ async def create_item(item_name: str, item_description: str = ""):
 @app.get("/api/date")
 async def get_current_date():
     """Get current date and time"""
-    from datetime import datetime
-    now = datetime.utcnow()
+    now = datetime.now(UTC)
     return JSONResponse({
         "date": now.strftime("%Y-%m-%d"),
         "time": now.strftime("%H:%M:%S"),
